@@ -92,47 +92,33 @@ export function Results({ riskLevel = "low", answers, stripData, onNext, onBack 
         <p style={{ color:"#9ca3af", fontSize:12, letterSpacing:"0.12em", textTransform:"uppercase", fontWeight:600, margin:0 }}>Assessment Result</p>
       </div>
 
-      {/* Risk Card */}
-      <div style={{ background:"#ffffff", borderRadius:24, padding:"0", textAlign:"center", marginBottom:32, overflow:"hidden", border:"1px solid rgba(0,0,0,0.05)", boxShadow:"0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)", animation:"fadeInScale 0.45s ease both" }}>
-        <div style={{ height:6, background:cfg.color, width:"100%" }}/>
-        <div style={{ padding:"28px 24px 28px" }}>
-          <div style={{ marginBottom:20 }}>
-            {getRiskIcon()}
-          </div>
-          <h1 style={{ fontSize:32, fontWeight:700, color:"#1a1a1a", margin:"0 0 8px", fontFamily:"system-ui, sans-serif" }}>
-            {cfg.label}
-          </h1>
-          <p style={{ color:"#6b7280", fontSize:15, margin:0 }}>Kidney health risk assessment</p>
-        </div>
-      </div>
-
-      {/* Risk Score */}
-      <div style={{ background:"#ffffff", borderRadius:24, padding:"32px 24px", marginBottom:32, border:"1px solid rgba(0,0,0,0.05)", boxShadow:"0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)", display:"flex", flexDirection:"column", alignItems:"center", animation:"fadeInUp 0.4s ease both", animationDelay:"0.1s" }}>
-        <div style={{ position:"relative", width:140, height:140, marginBottom:16 }}>
-          <svg width="100%" height="100%" viewBox="0 0 140 140" style={{ position:"absolute", top:0, left:0 }}>
-            {/* Track circle */}
-            <circle cx="70" cy="70" r="52" fill="none" stroke="#f3f4f6" strokeWidth="10" />
-            {/* Fill circle */}
+      {/* Main Risk Assessment Card */}
+      <div style={{ background:"#ffffff", borderRadius:24, padding:"36px 24px", marginBottom:32, border:"1px solid rgba(0,0,0,0.05)", boxShadow:"0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)", animation:"fadeInScale 0.5s ease both", textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center" }}>
+        {/* Extra Large Risk Percentage Circle */}
+        <div style={{ position:"relative", width:180, height:180, margin:"0 auto 2px", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <svg width="100%" height="100%" viewBox="0 0 180 180" style={{ position:"absolute", top:0, left:0 }}>
+            <circle cx="90" cy="90" r="75" fill="none" stroke="#f0f0f0" strokeWidth="11" />
             <circle
-              cx="70" cy="70" r="52" fill="none"
-              stroke={cfg.color} strokeWidth="10" strokeLinecap="round"
-              strokeDasharray="326.7 326.7"
-              strokeDashoffset={animated ? (326.7 - (predictionScore !== null ? predictionScore : cfg.bar) / 100 * 326.7) : 326.7}
-              transform="rotate(-90 70 70)"
-              style={{ transition:"stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)" }}
+              cx="90" cy="90" r="75" fill="none"
+              stroke={cfg.color} strokeWidth="11" strokeLinecap="round"
+              strokeDasharray="471.2 471.2"
+              strokeDashoffset={animated ? (471.2 - (predictionScore !== null ? predictionScore : cfg.bar) / 100 * 471.2) : 471.2}
+              transform="rotate(-90 90 90)"
+              style={{ transition:"stroke-dashoffset 2s cubic-bezier(0.165,0.84,0.44,1)" }}
             />
           </svg>
-          {/* Center text */}
-          <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-            <p style={{ fontSize:32, fontWeight:800, color:cfg.color, margin:0, letterSpacing:"-1px" }}>{predictionScore !== null ? predictionScore : cfg.bar}%</p>
-            <p style={{ fontSize:11, color:"#9ca3af", letterSpacing:"0.1em", textTransform:"uppercase", margin:"2px 0 0" }}>Risk Score</p>
+          <div style={{ textAlign:"center", position:"relative", zIndex:1 }}>
+            <p style={{ fontSize:30, fontWeight:900, color:cfg.color, margin:0, lineHeight:1 }}>{predictionScore !== null ? predictionScore : cfg.bar}%</p>
           </div>
         </div>
-        <div style={{ display:"flex", gap:8, marginTop:12 }}>
-          <div style={{ width:32, height:8, background:"#e0e7ff", borderRadius:4 }} />
-          <div style={{ width:32, height:8, background:"#fef3c7", borderRadius:4 }} />
-          <div style={{ width:32, height:8, background:"#fee2e2", borderRadius:4 }} />
-        </div>
+
+        {/* Risk Label */}
+        <h1 style={{ fontSize:26, fontWeight:700, color:"#1a1a1a", margin:"0 0 6px" }}>
+          {cfg.label}
+        </h1>
+
+        {/* Description Text */}
+        <p style={{ color:"#9ca3af", fontSize:12, margin:0 }}>Kidney health risk assessment</p>
       </div>
 
       {/* Risk Trajectory */}
