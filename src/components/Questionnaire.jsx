@@ -188,45 +188,55 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
   };
 
   return (
-    <div style={{ display:"flex", flexDirection:"column", height:"100vh", background:"#FDFBF9", color:"#1a1a1a" }}>
+    <div style={{ display:"flex", flexDirection:"column", height:"100vh", background:"linear-gradient(160deg, #faf9ff 0%, #f4f2fb 40%, #fdf8f5 100%)", color:"#1a1a1a" }}>
       {/* Header */}
-      <div style={{ padding:"16px 24px", borderBottom:"1px solid #e5e5e5", background:"#FDFBF9" }}>
+      <div style={{ padding:"16px 24px", borderBottom:"1px solid rgba(0,0,0,0.05)", background:"#ffffff", boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12, position:"relative" }}>
-          <button onClick={() => step === 0 ? onBack() : setStep(Math.max(0, step - 1))} style={{ background:"#e8e8e8", border:"none", width:40, height:40, borderRadius:"50%", cursor:"pointer", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center", color:"#1a1a1a" }}>←</button>
-          <div style={{ textAlign:"center" }}>
+          <button onClick={() => step === 0 ? onBack() : setStep(Math.max(0, step - 1))} style={{ background:"#e5e7eb", border:"none", width:40, height:40, borderRadius:"50%", cursor:"pointer", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center", color:"#1a1a1a", transition:"all 0.2s" }} onMouseEnter={(e) => e.target.style.background = "#d1d5db"} onMouseLeave={(e) => e.target.style.background = "#e5e7eb"}>←</button>
+          <div style={{ textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center" }}>
             <h2 style={{ color:"#1a1a1a", fontSize:18, fontWeight:700, margin:"0 0 4px" }}>{currentQuestion.title}</h2>
-            <p style={{ color:"#9ca3af", fontSize:12, margin:0 }}>{currentQuestion.step}</p>
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              <svg width="28" height="28" viewBox="0 0 28 28" style={{ flexShrink:0 }}>
+                <circle cx="14" cy="14" r="12" fill="none" stroke="#e5e5e5" strokeWidth="2" />
+                <circle
+                  cx="14" cy="14" r="12" fill="none"
+                  stroke="#10b981" strokeWidth="2" strokeLinecap="round"
+                  strokeDasharray={`${87.96} ${87.96}`}
+                  strokeDashoffset={87.96 * (1 - progress / 100)}
+                  transform="rotate(-90 14 14)"
+                  style={{ transition:"stroke-dashoffset 0.3s ease" }}
+                />
+              </svg>
+              <p style={{ color:"#9ca3af", fontSize:12, margin:0, fontWeight:600 }}>{currentQuestion.step}</p>
+            </div>
           </div>
           <div style={{ position:"relative" }}>
-            <button onClick={() => setShowMenu(!showMenu)} style={{ background:"#e8e8e8", border:"none", width:40, height:40, borderRadius:"50%", cursor:"pointer", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center", color:"#1a1a1a" }}>⋯</button>
+            <button onClick={() => setShowMenu(!showMenu)} style={{ background:"#e5e7eb", border:"none", width:40, height:40, borderRadius:"50%", cursor:"pointer", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center", color:"#1a1a1a", transition:"all 0.2s" }} onMouseEnter={(e) => e.target.style.background = "#d1d5db"} onMouseLeave={(e) => e.target.style.background = "#e5e7eb"}>⋯</button>
             {showMenu && (
-              <div style={{ position:"absolute", top:"100%", right:0, marginTop:8, background:"#ffffff", border:"1px solid #e5e5e5", borderRadius:12, boxShadow:"0 4px 12px rgba(0,0,0,0.1)", minWidth:150, zIndex:1000 }}>
-                <button onClick={() => { onLogout(); setShowMenu(false); }} style={{ width:"100%", padding:"12px 16px", border:"none", background:"none", color:"#ef4444", cursor:"pointer", textAlign:"left", fontSize:14, fontWeight:500, borderRadius:12 }}>
+              <div style={{ position:"absolute", top:"100%", right:0, marginTop:8, background:"#ffffff", border:"1px solid rgba(0,0,0,0.05)", borderRadius:12, boxShadow:"0 8px 24px rgba(0,0,0,0.10)", minWidth:150, zIndex:1000 }}>
+                <button onClick={() => { onLogout(); setShowMenu(false); }} style={{ width:"100%", padding:"12px 16px", border:"none", background:"none", color:"#ef4444", cursor:"pointer", textAlign:"left", fontSize:14, fontWeight:500, borderRadius:12, transition:"all 0.2s" }} onMouseEnter={(e) => e.target.style.background = "#fee2e2"} onMouseLeave={(e) => e.target.style.background = "none"}>
                   Logout
                 </button>
               </div>
             )}
           </div>
         </div>
-        <div style={{ height:4, background:"#e5e5e5", borderRadius:2 }}>
-          <div style={{ width:`${progress}%`, height:"100%", background:"#10b981", borderRadius:2, transition:"width 0.3s" }}/>
-        </div>
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} style={{ flex:1, overflowY:"auto", padding:"24px", display:"flex", flexDirection:"column", gap:20, background:"#FDFBF9" }}>
-        <div style={{ display:"flex", gap:12, alignItems:"flex-start" }}>
-          <img src={borderAvatarSvg} alt="Avatar" width="48" height="48" style={{ flexShrink:0 }} />
-          <div style={{ background:"#ffffff", borderRadius:16, padding:"16px 18px", color:"#1a1a1a", fontSize:15, lineHeight:1.5, maxWidth:"85%" }}>
+      <div ref={scrollRef} style={{ flex:1, overflowY:"auto", padding:"24px", display:"flex", flexDirection:"column", gap:20, background:"linear-gradient(160deg, #faf9ff 0%, #f4f2fb 40%, #fdf8f5 100%)" }}>
+        <div style={{ display:"flex", gap:12, alignItems:"flex-start", animation:"fadeInUp 0.4s ease both", animationDelay:"0.1s" }}>
+          <img src={borderAvatarSvg} alt="Avatar" width="48" height="48" style={{ flexShrink:0, borderRadius:"50%" }} />
+          <div style={{ background:"#ffffff", borderRadius:"0 18px 18px 18px", borderLeft:`4px solid #6366f1`, padding:"16px 18px", color:"#1a1a1a", fontSize:15, lineHeight:1.5, maxWidth:"85%", boxShadow:"0 4px 12px rgba(0,0,0,0.08)" }}>
             {currentQuestion.aiText}
           </div>
         </div>
 
         {/* Selected answers display */}
         {selectedArray.length > 0 && (
-          <div style={{ display:"flex", flexWrap:"wrap", gap:10, marginLeft:60 }}>
-            {selectedArray.map(val => (
-              <div key={val} style={{ background:"#e0e7ff", border:`2px solid ${COLORS.primary}`, borderRadius:20, padding:"8px 16px", color:COLORS.primary, fontSize:13, fontWeight:600, display:"flex", alignItems:"center", gap:8 }}>
+          <div style={{ display:"flex", flexWrap:"wrap", gap:10, marginLeft:60, animation:"fadeInUp 0.3s ease both" }}>
+            {selectedArray.map((val, i) => (
+              <div key={val} style={{ background:"#e0e7ff", border:`2px solid ${COLORS.primary}`, borderRadius:20, padding:"8px 16px", color:COLORS.primary, fontSize:13, fontWeight:600, display:"flex", alignItems:"center", gap:8, animation:"fadeInScale 0.3s ease both", animationDelay:`${0.15 + i * 0.05}s` }}>
                 <span>✓</span>
                 {val}
               </div>
@@ -236,18 +246,18 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
       </div>
 
       {/* Options */}
-      <div style={{ padding:"24px", borderTop:"1px solid #e5e5e5", background:"#FDFBF9" }}>
+      <div style={{ padding:"24px", borderTop:"1px solid rgba(0,0,0,0.05)", background:"#ffffff", boxShadow:"0 -2px 8px rgba(0,0,0,0.04)" }}>
         {/* Water options with grid */}
         {currentQuestion.id === "water" && (
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:currentQuestion.multi ? 16 : 0 }}>
-            {currentQuestion.options.map(opt => (
+            {currentQuestion.options.map((opt, i) => (
               <button
                 key={opt}
                 onClick={() => handleAnswer(opt)}
                 style={{
                   padding:"16px 12px",
                   borderRadius:16,
-                  border:`2px solid ${selectedArray.includes(opt) ? COLORS.primary : "#d1d5db"}`,
+                  border:`2px solid ${selectedArray.includes(opt) ? COLORS.primary : "#e5e5e5"}`,
                   background: selectedArray.includes(opt) ? "#e0e7ff" : "#ffffff",
                   color: selectedArray.includes(opt) ? COLORS.primary : "#1a1a1a",
                   fontSize:13,
@@ -257,10 +267,13 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
                   flexDirection:"column",
                   alignItems:"center",
                   gap:8,
-                  transition:"all 0.2s"
+                  transition:"all 0.2s",
+                  boxShadow: selectedArray.includes(opt) ? "0 4px 12px rgba(99,102,241,0.15)" : "0 2px 4px rgba(0,0,0,0.04)",
+                  animation:"slideUp 0.4s ease both",
+                  animationDelay:`${0.2 + i * 0.06}s`
                 }}
               >
-                <span style={{ fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", width:24, height:24, filter: selectedArray.includes(opt) ? `drop-shadow(0 0 4px ${COLORS.primary})` : "none" }}>
+                <span style={{ fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", width:36, height:36, background: selectedArray.includes(opt) ? COLORS.primary : "#f3f4f6", borderRadius:"50%", color: selectedArray.includes(opt) ? "#ffffff" : "#6b7280" }}>
                   {getWaterIcon(opt)}
                 </span>
                 {opt}
@@ -272,14 +285,14 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
         {/* Regular options */}
         {currentQuestion.id !== "water" && (
           <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:currentQuestion.multi ? 16 : 0 }}>
-            {currentQuestion.options.map(opt => (
+            {currentQuestion.options.map((opt, i) => (
               <button
                 key={opt}
                 onClick={() => currentQuestion.multi ? toggleMultiSelect(opt) : handleAnswer(opt)}
                 style={{
-                  padding:"12px 16px",
-                  borderRadius:24,
-                  border:`2px solid ${selectedArray.includes(opt) ? COLORS.primary : "#d1d5db"}`,
+                  padding:"14px 20px",
+                  borderRadius:16,
+                  border:`2px solid ${selectedArray.includes(opt) ? COLORS.primary : "#e5e5e5"}`,
                   background: selectedArray.includes(opt) ? "#e0e7ff" : "#ffffff",
                   color: selectedArray.includes(opt) ? COLORS.primary : "#1a1a1a",
                   fontSize:14,
@@ -288,10 +301,13 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
                   display:"flex",
                   alignItems:"center",
                   gap:10,
-                  transition:"all 0.2s"
+                  transition:"all 0.2s",
+                  boxShadow: selectedArray.includes(opt) ? "0 4px 12px rgba(99,102,241,0.15)" : "0 2px 4px rgba(0,0,0,0.04)",
+                  animation:"slideUp 0.4s ease both",
+                  animationDelay:`${0.2 + i * 0.06}s`
                 }}
               >
-                <span style={{ fontSize:16, display:"flex", alignItems:"center", justifyContent:"center", width:20, height:20, filter: selectedArray.includes(opt) ? `drop-shadow(0 0 4px ${COLORS.primary})` : "none" }}>
+                <span style={{ fontSize:16, display:"flex", alignItems:"center", justifyContent:"center", width:36, height:36, background: selectedArray.includes(opt) ? COLORS.primary : "#f3f4f6", borderRadius:"50%", color: selectedArray.includes(opt) ? "#ffffff" : "#6b7280", fontWeight:600 }}>
                   {selectedArray.includes(opt) ? "✓" : (currentQuestion.id === "work" && getWorkIcon(opt)) || (currentQuestion.id === "exercise" && getExerciseIcon(opt)) || ""}
                 </span>
                 {opt}
@@ -302,7 +318,7 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
 
         {/* Confirm button for multi-select */}
         {currentQuestion.multi && (
-          <button onClick={confirmMultiSelect} style={{ width:"100%", padding:"14px", borderRadius:24, border:"none", background:COLORS.primary, color:"#fff", fontWeight:700, fontSize:15, cursor:"pointer", transition:"all 0.2s" }}>
+          <button onClick={confirmMultiSelect} style={{ width:"100%", padding:"14px", borderRadius:28, border:"none", background:"linear-gradient(135deg, #6366f1 0%, #7c3aed 100%)", color:"#fff", fontWeight:700, fontSize:15, cursor:"pointer", transition:"all 0.2s", boxShadow:"0 8px 24px rgba(99,102,241,0.35)", animation:"slideUp 0.4s ease both", animationDelay:"0.4s" }} onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(99,102,241,0.45)"; }} onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(99,102,241,0.35)"; }}>
             Confirm Selection
           </button>
         )}
