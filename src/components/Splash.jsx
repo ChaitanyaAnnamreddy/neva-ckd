@@ -6,6 +6,25 @@ import background1Svg from "../assets/Background (1).svg";
 export function Splash({ onNext, userName }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const handleAudioClick = () => {
+    if (isPlaying) {
+      speechSynthesis.cancel();
+      setIsPlaying(false);
+    } else {
+      const text = `Hi ${userName || "Friend"}, I'm Neva AI. Let's check your kidney health. This will take less than 2 minutes.`;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      utterance.onend = () => setIsPlaying(false);
+      utterance.onerror = () => setIsPlaying(false);
+
+      setIsPlaying(true);
+      speechSynthesis.speak(utterance);
+    }
+  };
+
   return (
     <div style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", minHeight:"100%", padding:"32px 24px", textAlign:"center", background:"linear-gradient(180deg, #faf8f6 0%, #f5f3f0 50%, #ffffff 100%)" }}>
       {/* Header with logo and title */}
@@ -49,9 +68,9 @@ export function Splash({ onNext, userName }) {
       </button>
 
       {/* Audio button */}
-      <button onClick={() => setIsPlaying(!isPlaying)} style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, background:"none", border:"none", color:"#6366f1", cursor:"pointer", fontSize:13, fontWeight:600, fontFamily:"system-ui, sans-serif", transition:"opacity 0.2s" }}>
+      <button onClick={handleAudioClick} style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, background:"none", border:"none", color:"#6366f1", cursor:"pointer", fontSize:13, fontWeight:600, fontFamily:"system-ui, sans-serif", transition:"opacity 0.2s", opacity: isPlaying ? 0.7 : 1 }}>
         <PlayCircle size={18} color="#c7d2fe" fill="#c7d2fe" />
-        <span>Tap to hear this</span>
+        <span>{isPlaying ? "Playing..." : "Tap to hear this"}</span>
       </button>
     </div>
   );
