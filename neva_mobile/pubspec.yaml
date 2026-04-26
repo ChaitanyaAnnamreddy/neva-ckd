@@ -1,0 +1,54 @@
+name: neva_mobile
+description: Neva - Kidney Health Assessment Mobile App
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & Navigation
+  cupertino_icons: ^1.0.2
+  get: ^4.6.5
+
+  # State Management
+  provider: ^6.0.0
+
+  # Firebase (commented out for web testing - uncomment for production)
+  # firebase_core: ^2.24.0
+  # firebase_auth: ^4.14.0
+  # cloud_firestore: ^4.13.0
+  # flutter_dotenv: ^5.1.0
+
+  # Camera & Image
+  image_picker: ^1.0.4
+  camera: ^0.10.5
+
+  # UI Components
+  fl_chart: ^0.63.0
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+
+  # fonts:
+  #   - family: Poppins
+  #     fonts:
+  #       - asset: assets/fonts/Poppins-Regular.ttf
+  #       - asset: assets/fonts/Poppins-Bold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/Poppins-SemiBold.ttf
+  #         weight: 600

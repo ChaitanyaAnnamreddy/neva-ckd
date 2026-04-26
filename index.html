@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neva</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, sans-serif;
+        background: #0a0f1a;
+        color: #f1f5f9;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      .error {
+        padding: 20px;
+        background: #ef4444;
+        color: white;
+        border-radius: 8px;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.addEventListener('error', function(e) {
+        console.error('Error:', e);
+        const root = document.getElementById('root');
+        if (root && !root.innerHTML) {
+          root.innerHTML = '<div class="error"><h2>Error loading app</h2><p>' + e.message + '</p></div>';
+        }
+      });
+      
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled Promise Rejection:', e.reason);
+      });
+      
+      console.log('Neva app starting...');
+    </script>
+  </body>
+</html>

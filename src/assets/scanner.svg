@@ -1,0 +1,32 @@
+<svg width="280" height="360" viewBox="0 0 280 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Strip -->
+  <rect x="110" y="30" width="60" height="300" rx="8" fill="#f5f5f5" stroke="#d1d5db" stroke-width="2"/>
+
+  <!-- Strip color bands -->
+  <rect x="118" y="50" width="44" height="20" rx="4" fill="#8b7ba8"/>
+  <rect x="118" y="75" width="44" height="20" rx="4" fill="#1e3a8a"/>
+  <rect x="118" y="100" width="44" height="20" rx="4" fill="#b59b28"/>
+  <rect x="118" y="125" width="44" height="20" rx="4" fill="#c4a376"/>
+  <rect x="118" y="150" width="44" height="20" rx="4" fill="#6b2d5c"/>
+  <rect x="118" y="175" width="44" height="20" rx="4" fill="#0d7377"/>
+  <rect x="118" y="200" width="44" height="20" rx="4" fill="#8b2d2d"/>
+  <rect x="118" y="225" width="44" height="20" rx="4" fill="#9fb69f"/>
+  <rect x="118" y="250" width="44" height="20" rx="4" fill="#d17a3c"/>
+  <rect x="118" y="275" width="44" height="20" rx="4" fill="#d4a574"/>
+
+  <!-- Scanner frame -->
+  <rect x="60" y="130" width="160" height="100" rx="12" fill="none" stroke="#5b21b6" stroke-width="3"/>
+
+  <!-- Corner brackets -->
+  <line x1="75" y1="130" x2="95" y2="130" stroke="#5b21b6" stroke-width="3"/>
+  <line x1="75" y1="130" x2="75" y2="150" stroke="#5b21b6" stroke-width="3"/>
+
+  <line x1="205" y1="130" x2="185" y2="130" stroke="#5b21b6" stroke-width="3"/>
+  <line x1="205" y1="130" x2="205" y2="150" stroke="#5b21b6" stroke-width="3"/>
+
+  <line x1="75" y1="230" x2="95" y2="230" stroke="#5b21b6" stroke-width="3"/>
+  <line x1="75" y1="230" x2="75" y2="210" stroke="#5b21b6" stroke-width="3"/>
+
+  <line x1="205" y1="230" x2="185" y2="230" stroke="#5b21b6" stroke-width="3"/>
+  <line x1="205" y1="230" x2="205" y2="210" stroke="#5b21b6" stroke-width="3"/>
+</svg>

@@ -106,6 +106,17 @@ if bin_cols_present:
     cat_imputer = SimpleImputer(strategy="most_frequent")
     X[bin_cols_present] = cat_imputer.fit_transform(X[bin_cols_present])
 
+# Fill any remaining NaNs with median/mode
+remaining = X.isnull().sum().sum()
+if remaining > 0:
+    print(f"   Found {remaining} remaining missing values, filling...")
+    for col in X.columns:
+        if X[col].isnull().sum() > 0:
+            if X[col].dtype in ['float64', 'int64']:
+                X[col].fillna(X[col].median(), inplace=True)
+            else:
+                X[col].fillna(X[col].mode()[0] if len(X[col].mode()) > 0 else 0, inplace=True)
+
 remaining = X.isnull().sum().sum()
 assert remaining == 0, f"Still have {remaining} missing values!"
 print(f"   Missing values remaining: {remaining}")
@@ -186,12 +197,16 @@ for feat, val in top_features.head(10).items():
 print("\n🧪 Computing healthy defaults...")
 feature_cols = list(X.columns)
 
+# Use only healthy (non-CKD) patients for defaults
+X_healthy = X[y_clean == 0]
+print(f"   Using {len(X_healthy)} healthy patients for defaults")
+
 DEFAULT_VALUES = {}
 for col in feature_cols:
     if col in num_cols_present:
-        DEFAULT_VALUES[col] = round(float(X[col].median()), 2)
+        DEFAULT_VALUES[col] = round(float(X_healthy[col].median()), 2)
     else:
-        DEFAULT_VALUES[col] = int(X[col].mode()[0])
+        DEFAULT_VALUES[col] = int(X_healthy[col].mode()[0])
 
 print("   Defaults:")
 for k, v in DEFAULT_VALUES.items():

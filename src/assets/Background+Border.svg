@@ -1,0 +1,16 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g clip-path="url(#clip0_2_118)">
+<rect width="32" height="32" rx="16" fill="#E5E0FA"/>
+<rect width="30" height="30" transform="matrix(1.5 0 0 1.5 -6.5 -2.5)" fill="url(#pattern0_2_118)"/>
+</g>
+<rect x="0.5" y="0.5" width="31" height="31" rx="15.5" stroke="#E5E5EB" stroke-opacity="0.5"/>
+<defs>
+<pattern id="pattern0_2_118" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_2_118" transform="translate(-0.25 -0.25) scale(0.0166667)"/>
+</pattern>
+<clipPath id="clip0_2_118">
+<rect width="32" height="32" rx="16" fill="white"/>
+</clipPath>
+<image id="image0_2_118" width="90" height="90" preserveAspectRatio="none" xlink:href="data:image/jpeg;base64,/9j/2wBDAAgICAgJCAkKCgkNDgwODRMREBARExwUFhQWFBwrGx8bGx8bKyYuJSMlLiZENS8vNUROQj5CTl9VVV93cXecnNH/2wBDAQgICAgJCAkKCgkNDgwODRMREBARExwUFhQWFBwrGx8bGx8bKyYuJSMlLiZENS8vNUROQj5CTl9VVV93cXecnNH/wgARCABaAFoDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAAECAwQFBgf/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAgMEAQX/2gAMAwEAAhADEAAAAPuiGAkMrh1eVT4kAAAxBDIuLbPbTmrsnp6PGnCz013L6NFE012BVbm64XE15tmmVtThdvty6MU9Hb4nYrp1A78az6K+vJ0dfh99GvRTqqvnIlna+zz+pLFaM05CLkZuJ6Krlvkdfdqo187Vsu5VC8lfmQ1KLI3lRZUInETYIJkRRP/EADMQAAEDAQUECAYDAQAAAAAAAAEAAhEDITFBgdEEUWHhEBITMkJykcEFICJxg7EUJILw/9oACAEBAAE/ALZxmc51WGERlGit435zqgJgL0hcuXJc+fNcuXJc+fPot4zOc670JwmOFy9IjKNF6zOc6rTKNEXQnVBK7RCog75DfbE8b0YgkE7538QiIsPKNE50KpWa28p+0uN1idWeLS4pu11ge9KobW19hsKY5ASCpi48Z3yrMYnjerZxmc51TiIn/jxCr1QxjnG4BDaA6S42lGswXBdfrKEyWlbNUJEHJNdZ0W4TkvSIyjRVXGLV8Sr2GmPuU15XWKY5MMqFRqOY4KmZgrBG+2M70c5nOdVVW2OJq1Ab5Ka59IEtp/VgSLAF23at+tgDwbxcQmpjohGpUwAI3KmBeqXdagrcJyRxs+w9lVG5bcz+wZ3oVSQQ4IBMLSAHMIIxFxQ4CF2ga4BUXdZUxAHQYxjNWcIjKNE8L4hQ6zQ8YXqo0lo4JiaEAhTkgrZ6cwIsCaOi3CcljjM5zqoEKpT3i8LadhNpYLNyGzv60QmUmNvtKa0G5gTNnm8QqdMNEAJrTEgWdFnDNentGiHiPDH3REosTqQN4X8WnPdTaTW3BBiAWM43IQBYBvGaJMmCANxWuc68EI05b+mFCj5fXISvB+L3TImr5vZEDtDu7VoXgHkd+0bz5mfpDDy1Fv8Axoe9RG7/ADTR7589ReA+Rn7VTvv8xX//xAAfEQACAgICAwEAAAAAAAAAAAABAgARAxAhMRIgMEH/2gAIAQIBAT8A1R9VQkXAkfxl6HcUhU6jPxyKjvFazoRjdczI8LTH3ezHVoMZ/Yq18P/EACERAAICAQIHAAAAAAAAAAAAAAECAAMQERIUICEwMUFR/9oACAEDAQE/AOdVwKwRHTacqkWubT8lwGBKtCom2dJc2a7ShnEA+Y1w9Rm17H//2Q=="/>
+</defs>
+</svg>
