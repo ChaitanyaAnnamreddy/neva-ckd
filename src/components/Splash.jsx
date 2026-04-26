@@ -11,7 +11,7 @@ export function Splash({ onNext, userName }) {
       speechSynthesis.cancel();
       setIsPlaying(false);
     } else {
-      const text = `Hi ${userName || "Friend"}, I'm Neva AI. Let's check your kidney health. This will take less than 2 minutes.`;
+      const text = `Hi ${userName || "Friend"}, I'm Neva AI. Let's check your kidney health. This will take less than 2 minutes. Click on Start Assessment to begin.`;
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 1;
       utterance.pitch = 1;
