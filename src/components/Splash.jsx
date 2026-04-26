@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ShieldCheck, PlayCircle } from "react-bootstrap-icons";
 import avatarSvg from "../assets/Avatar Image.svg";
 import background1Svg from "../assets/Background (1).svg";
 
@@ -38,10 +39,7 @@ export function Splash({ onNext, userName }) {
 
       {/* Privacy badge */}
       <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:6, marginBottom:32, background:"rgba(16,185,129,0.08)", border:"1px solid rgba(16,185,129,0.2)", borderRadius:16, padding:"8px 14px" }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <path d="m9 12 2 2 4-4"/>
-        </svg>
+        <ShieldCheck size={16} color="#10b981" />
         <span style={{ color:"#059669", fontSize:12, fontWeight:500 }}>This is private and not a diagnosis</span>
       </div>
 
@@ -52,10 +50,7 @@ export function Splash({ onNext, userName }) {
 
       {/* Audio button */}
       <button onClick={() => setIsPlaying(!isPlaying)} style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, background:"none", border:"none", color:"#6366f1", cursor:"pointer", fontSize:13, fontWeight:600, fontFamily:"system-ui, sans-serif", transition:"opacity 0.2s" }}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#c7d2fe">
-          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
-          <path d="M12 8v8M9 11h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        </svg>
+        <PlayCircle size={18} color="#c7d2fe" fill="#c7d2fe" />
         <span>Tap to hear this</span>
       </button>
     </div>

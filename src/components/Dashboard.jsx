@@ -1,33 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RISK_CONFIG } from "../constants";
+import { Fire, CheckCircle, Plus, Activity, InfoCircle, ExclamationCircle, Droplet, Lightbulb, Star } from "react-bootstrap-icons";
 
-export function Dashboard({ riskLevel = "low", onBack }) {
-  const [streak] = useState(3);
-  const [water, setWater] = useState(5);
+export function Dashboard({ riskLevel = "low", onBack, onRetake }) {
+  const [streak, setStreak] = useState(1);
+  const [water, setWater] = useState(0);
+  const [hydrationHistory, setHydrationHistory] = useState({});
   const cfg = RISK_CONFIG[riskLevel] || RISK_CONFIG.low;
   const glasses = Array.from({length:8},(_,i)=>i<water);
 
+  useEffect(() => {
+    // Load hydration history from localStorage
+    const saved = localStorage.getItem("hydrationHistory");
+    const history = saved ? JSON.parse(saved) : {};
+    setHydrationHistory(history);
+
+    // Calculate streak
+    let currentStreak = 1;
+    const today = new Date().toISOString().split('T')[0];
+    let checkDate = new Date(today);
+
+    while (history[checkDate.toISOString().split('T')[0]] >= 6) {
+      currentStreak++;
+      checkDate.setDate(checkDate.getDate() - 1);
+      if (currentStreak > 365) break; // Prevent infinite loop
+    }
+    setStreak(currentStreak);
+
+    // Load today's water intake
+    const todayWater = history[today] || 0;
+    setWater(todayWater);
+  }, []);
+
+  const updateWaterIntake = (amount) => {
+    const today = new Date().toISOString().split('T')[0];
+    const updated = { ...hydrationHistory, [today]: amount };
+    setHydrationHistory(updated);
+    setWater(amount);
+    localStorage.setItem("hydrationHistory", JSON.stringify(updated));
+  };
+
   const getRiskIcon = () => {
-    if (riskLevel === "low") return (
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={cfg.color} strokeWidth="2">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-        <polyline points="22 4 12 14.01 9 11.01"/>
-      </svg>
-    );
-    if (riskLevel === "moderate") return (
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={cfg.color} strokeWidth="2">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="16"/>
-        <line x1="8" y1="12" x2="16" y2="12"/>
-      </svg>
-    );
-    return (
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={cfg.color} strokeWidth="2">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="12"/>
-        <line x1="12" y1="16" x2="12.01" y2="16"/>
-      </svg>
-    );
+    if (riskLevel === "low") return <CheckCircle size={40} color={cfg.color} fill={cfg.color} />;
+    if (riskLevel === "moderate") return <InfoCircle size={40} color={cfg.color} fill={cfg.color} />;
+    return <ExclamationCircle size={40} color={cfg.color} fill={cfg.color} />;
   };
 
   return (
@@ -72,9 +88,7 @@ export function Dashboard({ riskLevel = "low", onBack }) {
           <p style={{ fontSize:36, fontWeight:700, color:"#f97316", margin:0 }}>{streak} days</p>
         </div>
         <div style={{ width:60, height:60, borderRadius:"50%", background:"#fed7aa", display:"flex", alignItems:"center", justifyContent:"center" }}>
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="#f97316">
-            <path d="M13 2H11v5h2V2zm-3.5 1.57L4.93 3.5 6.34 8.07l1.41-1.41zM19 3.5l-5.5 5.5 1.41 1.41L20.07 3.5zM1 11h5v2H1zm17 0h5v2h-5zM4.93 19.07L3.5 20.5l5.57 5.57 1.41-1.41zm13.14.57l-1.41 1.41 5.57 5.57 1.41-1.41z"/>
-          </svg>
+          <Fire size={32} color="#f97316" fill="#f97316" />
         </div>
       </div>
 
@@ -99,7 +113,7 @@ export function Dashboard({ riskLevel = "low", onBack }) {
           {glasses.map((full, i) => (
             <button
               key={i}
-              onClick={() => setWater(i+1)}
+              onClick={() => updateWaterIntake(i+1)}
               style={{
                 flex:1,
                 height:40,
@@ -118,15 +132,38 @@ export function Dashboard({ riskLevel = "low", onBack }) {
         </p>
       </div>
 
+      {/* Hydration History */}
+      <div style={{ background:"#ffffff", borderRadius:20, padding:"24px", marginBottom:32, border:"1px solid #e5e5e5", boxShadow:"0 4px 16px rgba(0,0,0,0.04)" }}>
+        <p style={{ color:"#1a1a1a", fontSize:15, fontWeight:600, margin:"0 0 16px" }}>Last 7 days</p>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(7, 1fr)", gap:8 }}>
+          {Array.from({length:7}).map((_, i) => {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            const dateStr = date.toISOString().split('T')[0];
+            const dayAmount = hydrationHistory[dateStr] || 0;
+            const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()];
+            return (
+              <div key={i} style={{ textAlign:"center" }}>
+                <p style={{ color:"#9ca3af", fontSize:11, fontWeight:600, margin:"0 0 8px" }}>{dayName}</p>
+                <div style={{ width:"100%", height:40, background:"#f3f4f6", borderRadius:8, display:"flex", alignItems:"center", justifyContent:"center", position:"relative", overflow:"hidden" }}>
+                  <div style={{ position:"absolute", bottom:0, left:0, right:0, height:`${(dayAmount/8)*100}%`, background:"#06b6d4", transition:"height 0.3s" }} />
+                  <span style={{ color:"#1a1a1a", fontSize:12, fontWeight:600, position:"relative", zIndex:1 }}>{dayAmount}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Badges Section */}
       <div style={{ marginBottom:32 }}>
         <p style={{ color:"#1a1a1a", fontSize:15, fontWeight:600, margin:"0 0 16px" }}>Achievements</p>
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
           {[
-            { icon:"💧", label:"First Screen", earned:true },
-            { icon:"🔥", label:"3-Day Streak", earned:true },
-            { icon:"💪", label:"Hydration Pro", earned:false },
-            { icon:"⭐", label:"30-Day Check", earned:false },
+            { icon: <Droplet size={28} color="#2563EB" fill="#2563EB" />, label:"First Screen", earned:true },
+            { icon: <Fire size={28} color="#f97316" fill="#f97316" />, label:`${streak}-Day Streak`, earned: streak >= 3 },
+            { icon: <Lightbulb size={28} color="#d1d5db" />, label:"Hydration Pro", earned: water >= 6 },
+            { icon: <Star size={28} color="#d1d5db" />, label:"30-Day Check", earned: streak >= 30 },
           ].map((b, i) => (
             <div
               key={i}
@@ -140,7 +177,7 @@ export function Dashboard({ riskLevel = "low", onBack }) {
                 transition:"all 0.2s"
               }}
             >
-              <div style={{ fontSize:28, marginBottom:8 }}>{b.icon}</div>
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"center", marginBottom:8 }}>{b.icon}</div>
               <p style={{ color: b.earned ? "#1a1a1a" : "#9ca3af", fontSize:12, fontWeight: b.earned ? 600 : 500, margin:0 }}>{b.label}</p>
             </div>
           ))}
@@ -149,6 +186,7 @@ export function Dashboard({ riskLevel = "low", onBack }) {
 
       {/* Retake Button */}
       <button
+        onClick={onRetake}
         style={{
           width:"100%",
           padding:"16px 24px",

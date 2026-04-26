@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { CheckLg, Clock, Circle, Camera, CheckCircle } from "react-bootstrap-icons";
 import { COLORS, STRIP_BANDS } from "../constants";
 import expandIcon from "../assets/SVG (3).svg";
 import hydrationIcon from "../assets/background (2).svg";
@@ -359,9 +360,7 @@ export function StripCamera({ onDone, onSkip, onBack, userName, onLogout, answer
                 {/* Protein */}
                 <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                   <div style={{ width:32, height:32, borderRadius:"50%", background:"#e0e7ff", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="3">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
+                    <CheckLg size={18} color={COLORS.primary} />
                   </div>
                   <span style={{ color:COLORS.primary, fontSize:14, fontWeight:600 }}>Protein detected</span>
                 </div>
@@ -369,9 +368,7 @@ export function StripCamera({ onDone, onSkip, onBack, userName, onLogout, answer
                 {/* Glucose */}
                 <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                   <div style={{ width:32, height:32, borderRadius:"50%", background:"#e0e7ff", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="3">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
+                    <CheckLg size={18} color={COLORS.primary} />
                   </div>
                   <span style={{ color:COLORS.primary, fontSize:14, fontWeight:600 }}>Glucose checked</span>
                 </div>
@@ -379,10 +376,7 @@ export function StripCamera({ onDone, onSkip, onBack, userName, onLogout, answer
                 {/* pH */}
                 <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                   <div style={{ width:32, height:32, borderRadius:"50%", background:"#e0e7ff", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"/>
-                      <path d="M12 6v6l4 2"/>
-                    </svg>
+                    <Clock size={18} color={COLORS.primary} />
                   </div>
                   <span style={{ color:COLORS.primary, fontSize:14, fontWeight:600 }}>Checking pH...</span>
                 </div>
@@ -390,9 +384,7 @@ export function StripCamera({ onDone, onSkip, onBack, userName, onLogout, answer
                 {/* Blood */}
                 <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                   <div style={{ width:32, height:32, borderRadius:"50%", background:"#f3f4f6", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"/>
-                    </svg>
+                    <Circle size={18} color="#d1d5db" />
                   </div>
                   <span style={{ color:"#9ca3af", fontSize:14, fontWeight:500 }}>Blood</span>
                 </div>
@@ -400,9 +392,7 @@ export function StripCamera({ onDone, onSkip, onBack, userName, onLogout, answer
                 {/* Pus Cells */}
                 <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                   <div style={{ width:32, height:32, borderRadius:"50%", background:"#f3f4f6", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"/>
-                    </svg>
+                    <Circle size={18} color="#d1d5db" />
                   </div>
                   <span style={{ color:"#9ca3af", fontSize:14, fontWeight:500 }}>Pus Cells</span>
                 </div>
@@ -420,10 +410,7 @@ export function StripCamera({ onDone, onSkip, onBack, userName, onLogout, answer
           <>
             {/* Camera Box */}
             <div style={{ width:"100%", maxWidth:300, aspectRatio:"1", background:"#e0e7ff", borderRadius:20, border:"2px dashed #2563EB", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:16, padding:"24px", textAlign:"center" }}>
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                <circle cx="12" cy="13" r="4"/>
-              </svg>
+              <Camera size={64} color="#2563EB" />
               <div>
                 <h3 style={{ color:"#1a1a1a", fontSize:16, fontWeight:700, margin:"0 0 4px" }}>Position strip here</h3>
                 <p style={{ color:"#6b7280", fontSize:13, margin:0 }}>Align strip in the scanner frame</p>
@@ -474,9 +461,7 @@ export function StripCamera({ onDone, onSkip, onBack, userName, onLogout, answer
       <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:16, marginBottom:12 }}>
         <div style={{ width:80, height:80, borderRadius:"50%", background:"#e0e7ff", display:"flex", alignItems:"center", justifyContent:"center" }}>
           <div style={{ width:60, height:60, borderRadius:"50%", background:"#e0e7ff", border:`3px solid ${COLORS.primary}`, display:"flex", alignItems:"center", justifyContent:"center" }}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={COLORS.primary} strokeWidth="3">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
+            <CheckLg size={32} color={COLORS.primary} />
           </div>
         </div>
         <h1 style={{ color:"#1a1a1a", fontSize:32, fontWeight:700, margin:0 }}>Scan Complete</h1>
@@ -488,9 +473,7 @@ export function StripCamera({ onDone, onSkip, onBack, userName, onLogout, answer
           <img src={scannerSvg} alt="Strip" style={{ width:"80%", height:"80%", objectFit:"contain" }} />
         </div>
         <div style={{ position:"absolute", right:"30%", width:48, height:48, borderRadius:"50%", background:COLORS.primary, display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 2px 8px rgba(37,99,235,0.3)" }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
+          <CheckLg size={24} color="#ffffff" />
         </div>
       </div>
 

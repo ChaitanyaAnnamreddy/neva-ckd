@@ -1,4 +1,5 @@
 import { RISK_CONFIG, EXPLANATIONS } from "../constants";
+import { InfoCircle, ExclamationTriangle } from "react-bootstrap-icons";
 
 export function Explanation({ riskLevel = "low", onNext, onBack }) {
   const explanation = EXPLANATIONS[riskLevel] || EXPLANATIONS.low;
@@ -48,9 +49,7 @@ export function Explanation({ riskLevel = "low", onNext, onBack }) {
       <div style={{ background:"#ffffff", borderRadius:20, padding:"24px", marginBottom:32, border:`2px solid ${cfg.color}20`, boxShadow:"0 4px 16px rgba(0,0,0,0.04)" }}>
         <div style={{ display:"flex", gap:12, alignItems:"flex-start" }}>
           <div style={{ width:40, height:40, borderRadius:"50%", background:`${cfg.color}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={cfg.color} strokeWidth="2">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-            </svg>
+            <InfoCircle size={20} color={cfg.color} />
           </div>
           <p style={{ color:"#4b5563", fontSize:15, lineHeight:1.7, margin:0, fontWeight:500 }}>{summary}</p>
         </div>
@@ -74,11 +73,7 @@ export function Explanation({ riskLevel = "low", onNext, onBack }) {
       {/* Disclaimer */}
       <div style={{ background:"#fef3c7", border:"1px solid #fcd34d", borderRadius:16, padding:"16px", marginBottom:32, display:"flex", gap:12, alignItems:"flex-start" }}>
         <div style={{ flexShrink:0, marginTop:2 }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#92400e" strokeWidth="2">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3.05h16.94a2 2 0 0 0 1.71-3.05L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
+          <ExclamationTriangle size={20} color="#92400e" />
         </div>
         <p style={{ color:"#92400e", fontSize:13, lineHeight:1.6, margin:0 }}>
           <strong>Disclaimer:</strong> This is an awareness tool, not a medical diagnosis. Always consult a qualified doctor for professional medical advice.

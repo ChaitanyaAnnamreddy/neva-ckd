@@ -1,16 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { collection, doc, addDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
+import { Briefcase, Wrench, Shuffle, Activity, HeartPulse, HeartFill, Droplet } from "react-bootstrap-icons";
 import { COLORS } from "../constants";
-import workDeskIcon from "../assets/work-desk.svg";
-import workFieldIcon from "../assets/work-field.svg";
-import workMixedIcon from "../assets/work-mixed.svg";
-import exerciseRarelyIcon from "../assets/exercise-rarely.svg";
-import exerciseModerateIcon from "../assets/exercise-moderate.svg";
-import exerciseRegularIcon from "../assets/exercise-regular.svg";
-import waterLowIcon from "../assets/water-low.svg";
-import waterMediumIcon from "../assets/water-medium.svg";
-import waterHighIcon from "../assets/water-high.svg";
 import borderAvatarSvg from "../assets/Background+Border.svg";
 
 const ASSESSMENT_FLOW = [
@@ -157,11 +149,11 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
   const getWorkIcon = (option) => {
     switch(option) {
       case "Desk job":
-        return <img src={workDeskIcon} alt="Desk job" width="20" height="20" style={{ filter: "currentColor" }} />;
+        return <Briefcase size={20} />;
       case "Field work":
-        return <img src={workFieldIcon} alt="Field work" width="20" height="20" />;
+        return <Wrench size={20} />;
       case "Mixed":
-        return <img src={workMixedIcon} alt="Mixed" width="20" height="20" />;
+        return <Shuffle size={20} />;
       default:
         return null;
     }
@@ -170,11 +162,11 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
   const getExerciseIcon = (option) => {
     switch(option) {
       case "Rarely":
-        return <img src={exerciseRarelyIcon} alt="Rarely" width="20" height="20" />;
+        return <Activity size={20} />;
       case "1–2 times/week":
-        return <img src={exerciseModerateIcon} alt="1-2 times/week" width="20" height="20" />;
+        return <HeartPulse size={20} />;
       case "Regularly":
-        return <img src={exerciseRegularIcon} alt="Regularly" width="20" height="20" />;
+        return <HeartFill size={20} />;
       default:
         return null;
     }
@@ -183,13 +175,13 @@ export function Questionnaire({ onDone, onLogout, onBack, user, initialStep = 0,
   const getWaterIcon = (option) => {
     switch(option) {
       case "<1L":
-        return <img src={waterLowIcon} alt="Less than 1L" width="20" height="20" />;
+        return <Droplet size={20} />;
       case "1–2L":
-        return <img src={waterMediumIcon} alt="1-2L" width="20" height="20" />;
+        return <Droplet size={20} />;
       case "2–3L":
-        return <img src={waterMediumIcon} alt="2-3L" width="20" height="20" />;
+        return <Droplet size={20} />;
       case "3L+":
-        return <img src={waterHighIcon} alt="3L+" width="20" height="20" />;
+        return <Droplet size={20} />;
       default:
         return null;
     }

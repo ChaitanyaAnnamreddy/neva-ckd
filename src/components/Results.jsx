@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { RISK_CONFIG } from "../constants";
+import { CheckCircle, InfoCircle, ExclamationCircle, ShieldCheck } from "react-bootstrap-icons";
 
 export function Results({ riskLevel = "low", answers, stripData, onNext, onBack }) {
   const cfg = RISK_CONFIG[riskLevel] || RISK_CONFIG.low;
@@ -54,26 +55,9 @@ export function Results({ riskLevel = "low", answers, stripData, onNext, onBack 
   }
 
   const getRiskIcon = () => {
-    if (riskLevel === "low") return (
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={cfg.color} strokeWidth="2">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-        <polyline points="22 4 12 14.01 9 11.01"/>
-      </svg>
-    );
-    if (riskLevel === "moderate") return (
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={cfg.color} strokeWidth="2">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="16"/>
-        <line x1="8" y1="12" x2="16" y2="12"/>
-      </svg>
-    );
-    return (
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={cfg.color} strokeWidth="2">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="12"/>
-        <line x1="12" y1="16" x2="12.01" y2="16"/>
-      </svg>
-    );
+    if (riskLevel === "low") return <CheckCircle size={64} color={cfg.color} fill={cfg.color} />;
+    if (riskLevel === "moderate") return <InfoCircle size={64} color={cfg.color} fill={cfg.color} />;
+    return <ExclamationCircle size={64} color={cfg.color} fill={cfg.color} />;
   };
 
   return (
@@ -200,9 +184,7 @@ export function Results({ riskLevel = "low", answers, stripData, onNext, onBack 
             {factors.map((f, i) => (
               <div key={i} style={{ background:"#ffffff", borderRadius:16, padding:"16px", display:"flex", alignItems:"center", gap:12, border:"1px solid #e5e5e5" }}>
                 <div style={{ width:32, height:32, borderRadius:"50%", background:`${cfg.color}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={cfg.color} strokeWidth="2.5">
-                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                  </svg>
+                  <ShieldCheck size={16} color={cfg.color} />
                 </div>
                 <span style={{ color:"#4b5563", fontSize:14, fontWeight:500 }}>{f}</span>
               </div>

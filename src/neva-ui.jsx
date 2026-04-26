@@ -97,6 +97,14 @@ export default function NevaApp() {
     }
   }
 
+  function handleRetakeScreening() {
+    setAnswers({});
+    setStripData(null);
+    setRiskLevel(null);
+    setQuestionnaireStep(0);
+    setScreen("questionnaire");
+  }
+
   function handleLogout() {
     if (auth) {
       signOut(auth).catch(err => console.error("Logout failed:", err));
@@ -170,7 +178,7 @@ export default function NevaApp() {
           {screen === "strip"          && <StripCamera onDone={handleStripDone} onSkip={handleStripSkip} onBack={() => setScreen("questionnaire")} userName={userName} onLogout={handleLogout} answers={answers} />}
           {screen === "results"        && <Results riskLevel={riskLevel} answers={answers} stripData={stripData} onNext={() => setScreen("explanation")} onBack={() => setScreen("strip")} />}
           {screen === "explanation"    && <Explanation riskLevel={riskLevel} onNext={() => setScreen("dashboard")} onBack={() => setScreen("results")} />}
-          {screen === "dashboard"      && <Dashboard riskLevel={riskLevel} onBack={() => setScreen("explanation")} />}
+          {screen === "dashboard"      && <Dashboard riskLevel={riskLevel} onBack={() => setScreen("explanation")} onRetake={handleRetakeScreening} />}
         </div>
         <NavDots current={screen} />
       </div>
