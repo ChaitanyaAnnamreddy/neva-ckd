@@ -18,9 +18,10 @@ CORS(app, origins=["http://localhost:5173", "http://localhost:3000", "*"])
 # ============================================================
 # Load model and metadata
 # ============================================================
-MODEL_PATH = "model.pkl"
-FEATURES_PATH = "features.pkl"
-CONTRACT_PATH = "contract.json"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "..", "model.pkl")
+FEATURES_PATH = os.path.join(BASE_DIR, "..", "features.pkl")
+CONTRACT_PATH = os.path.join(BASE_DIR, "..", "contract.json")
 
 if not os.path.exists(MODEL_PATH):
     raise FileNotFoundError(f"Model file not found: {MODEL_PATH}. Run 'python train.py' first.")
@@ -205,29 +206,32 @@ def predict():
 
         # Apply risk multipliers based on questionnaire data
         # This compensates for the fact that we're using default lab values
+        # But only multiply if probability is already moderate or higher
         risk_multiplier = 1.0
 
         conditions = questionnaire.get("conditions", [])
-        if "Diabetes" in conditions:
-            risk_multiplier *= 2.5
-        if "High Blood Pressure" in conditions:
-            risk_multiplier *= 2.0
-        if "Kidney Issues" in conditions:
-            risk_multiplier *= 3.0
+        if conditions and conditions != ["None"]:
+            if "Diabetes" in conditions:
+                risk_multiplier *= 2.5
+            if "High Blood Pressure" in conditions:
+                risk_multiplier *= 2.0
+            if "Kidney Issues" in conditions:
+                risk_multiplier *= 3.0
 
         habits = questionnaire.get("habits", [])
-        if "Smoking" in habits:
-            risk_multiplier *= 1.8
-        if "Alcohol" in habits:
-            risk_multiplier *= 1.5
+        if habits and habits != ["None"]:
+            if "Smoking" in habits:
+                risk_multiplier *= 1.8
+            if "Alcohol" in habits:
+                risk_multiplier *= 1.5
 
         water = questionnaire.get("water", "")
         if water == "<1L":
             risk_multiplier *= 1.6
 
         exercise = questionnaire.get("exercise", "")
-        if exercise == "Rarely":
-            risk_multiplier *= 1.4
+        if exercise == "Rarely" and prob > 0.2:  # Only penalize if already some baseline risk
+            risk_multiplier *= 1.2  # Reduced from 1.4 to be less aggressive
 
         # Apply multiplier but cap at 0.99 (don't go above 99%)
         prob = min(prob * risk_multiplier, 0.99)

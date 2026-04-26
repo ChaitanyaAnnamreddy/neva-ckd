@@ -18,8 +18,10 @@ try:
     from sklearn.impute import SimpleImputer
     from sklearn.model_selection import train_test_split
     from sklearn.linear_model import LogisticRegression
-    from sklearn.metrics import classification_report, f1_score
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.metrics import classification_report, f1_score, roc_auc_score
     from xgboost import XGBClassifier
+    from sklearn.neural_network import MLPClassifier
     import shap
     import joblib
 except ImportError as e:
@@ -141,12 +143,39 @@ lr.fit(X_train, y_train)
 
 lr_pred = lr.predict(X_test)
 lr_f1 = f1_score(y_test, lr_pred)
+lr_auc = roc_auc_score(y_test, lr.predict_proba(X_test)[:, 1])
 
 print(classification_report(y_test, lr_pred, target_names=["notckd", "ckd"]))
-print(f"   LR F1: {lr_f1:.4f}")
+print(f"   LR F1: {lr_f1:.4f}, AUC: {lr_auc:.4f}")
 
 # ============================================================
-# STEP 8: Train XGBoost (primary)
+# STEP 8: Train Neural Network
+# ============================================================
+print("\n📊 Training Neural Network...")
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+nn = MLPClassifier(
+    hidden_layer_sizes=(64, 32),
+    activation="relu",
+    solver="adam",
+    max_iter=500,
+    random_state=42,
+    early_stopping=True,
+    validation_fraction=0.1,
+)
+nn.fit(X_train_scaled, y_train)
+
+nn_pred = nn.predict(X_test_scaled)
+nn_f1 = f1_score(y_test, nn_pred)
+nn_auc = roc_auc_score(y_test, nn.predict_proba(X_test_scaled)[:, 1])
+
+print(classification_report(y_test, nn_pred, target_names=["notckd", "ckd"]))
+print(f"   NN F1: {nn_f1:.4f}, AUC: {nn_auc:.4f}")
+
+# ============================================================
+# STEP 9: Train XGBoost (primary)
 # ============================================================
 print("\n📊 Training XGBoost...")
 xgb = XGBClassifier(
@@ -161,28 +190,42 @@ xgb.fit(X_train, y_train)
 
 xgb_pred = xgb.predict(X_test)
 xgb_f1 = f1_score(y_test, xgb_pred)
+xgb_auc = roc_auc_score(y_test, xgb.predict_proba(X_test)[:, 1])
 
 print(classification_report(y_test, xgb_pred, target_names=["notckd", "ckd"]))
-print(f"   XGB F1: {xgb_f1:.4f}")
+print(f"   XGB F1: {xgb_f1:.4f}, AUC: {xgb_auc:.4f}")
 
 # ============================================================
-# STEP 9: Compare
+# STEP 10: Compare All Models
 # ============================================================
 print("\n🏆 MODEL COMPARISON")
-print(f"   Logistic Regression F1: {lr_f1:.4f}")
-print(f"   XGBoost F1:             {xgb_f1:.4f}")
+print(f"   Logistic Regression F1: {lr_f1:.4f}, AUC: {lr_auc:.4f}")
+print(f"   Neural Network F1:      {nn_f1:.4f}, AUC: {nn_auc:.4f}")
+print(f"   XGBoost F1:             {xgb_f1:.4f}, AUC: {xgb_auc:.4f}")
 
-best_model = xgb if xgb_f1 >= lr_f1 else lr
-best_name = "XGBoost" if xgb_f1 >= lr_f1 else "Logistic Regression"
-best_f1 = max(xgb_f1, lr_f1)
-print(f"   ✅ Winner: {best_name} (F1: {best_f1:.4f})")
+models = {
+    "Logistic Regression": (lr, lr_f1, lr_auc),
+    "Neural Network": (nn, nn_f1, nn_auc),
+    "XGBoost": (xgb, xgb_f1, xgb_auc),
+}
+
+best_name = max(models.keys(), key=lambda k: models[k][1])
+best_model, best_f1, best_auc = models[best_name]
+print(f"   ✅ Winner: {best_name} (F1: {best_f1:.4f}, AUC: {best_auc:.4f})")
 
 # ============================================================
-# STEP 10: SHAP explainability
+# STEP 11: SHAP explainability
 # ============================================================
 print("\n🔍 Computing SHAP values...")
-explainer = shap.TreeExplainer(xgb)
-shap_values = explainer.shap_values(X_test)
+if best_name == "XGBoost":
+    explainer = shap.TreeExplainer(best_model)
+    shap_values = explainer.shap_values(X_test)
+elif best_name == "Neural Network":
+    explainer = shap.KernelExplainer(lambda x: best_model.predict_proba(scaler.transform(x))[:, 1], shap.sample(X_test, 50))
+    shap_values = explainer.shap_values(X_test)
+else:
+    explainer = shap.KernelExplainer(lambda x: best_model.predict_proba(x)[:, 1], shap.sample(X_test, 50))
+    shap_values = explainer.shap_values(X_test)
 
 mean_shap = pd.Series(np.abs(shap_values).mean(axis=0), index=X.columns)
 top_features = mean_shap.sort_values(ascending=False)
@@ -217,7 +260,12 @@ def predict_risk(inputs):
     """Take partial inputs, fill defaults, return risk + score + top 3 factors."""
     row = {col: inputs.get(col, DEFAULT_VALUES[col]) for col in feature_cols}
     row_df = pd.DataFrame([row])
-    prob = float(xgb.predict_proba(row_df)[0][1])
+
+    if best_name == "Neural Network":
+        row_scaled = scaler.transform(row_df)
+        prob = float(best_model.predict_proba(row_scaled)[0][1])
+    else:
+        prob = float(best_model.predict_proba(row_df)[0][1])
 
     if prob < 0.35:
         risk = "low"
@@ -226,8 +274,14 @@ def predict_risk(inputs):
     else:
         risk = "high"
 
-    sv = explainer.shap_values(row_df)
-    importance = pd.Series(np.abs(sv[0]), index=feature_cols)
+    try:
+        sv = explainer.shap_values(row_df)
+        if isinstance(sv, list):
+            sv = sv[1] if len(sv) > 1 else sv[0]
+        importance = pd.Series(np.abs(sv), index=feature_cols)
+    except:
+        importance = pd.Series(np.zeros(len(feature_cols)), index=feature_cols)
+
     top3 = importance.nlargest(3).index.tolist()
 
     return {"risk": risk, "score": round(prob, 3), "factors": top3}
@@ -274,8 +328,12 @@ contract = {
     "model_status": "done",
     "model_name": best_name,
     "model_f1": round(best_f1, 4),
-    "lr_f1": round(lr_f1, 4),
-    "xgb_f1": round(xgb_f1, 4),
+    "model_auc": round(best_auc, 4),
+    "all_models": {
+        "Logistic Regression": {"f1": round(lr_f1, 4), "auc": round(lr_auc, 4)},
+        "Neural Network": {"f1": round(nn_f1, 4), "auc": round(nn_auc, 4)},
+        "XGBoost": {"f1": round(xgb_f1, 4), "auc": round(xgb_auc, 4)},
+    },
     "features": feature_cols,
     "feature_count": len(feature_cols),
     "default_values": DEFAULT_VALUES,
@@ -296,12 +354,17 @@ print(f"   ✅ {contract_path}")
 print("\n" + "=" * 50)
 print("🎉 ML TRAINING COMPLETE")
 print("=" * 50)
-print(f"\nModel:    {best_name}")
-print(f"F1 Score: {best_f1:.4f}")
-print(f"Features: {len(feature_cols)}")
+print(f"\n🏆 Selected Model: {best_name}")
+print(f"   F1 Score: {best_f1:.4f}")
+print(f"   AUC: {best_auc:.4f}")
+print(f"\n📊 All Models Trained:")
+print(f"   • Logistic Regression: F1={lr_f1:.4f}, AUC={lr_auc:.4f}")
+print(f"   • Neural Network:      F1={nn_f1:.4f}, AUC={nn_auc:.4f}")
+print(f"   • XGBoost:             F1={xgb_f1:.4f}, AUC={xgb_auc:.4f}")
+print(f"\nFeatures: {len(feature_cols)}")
 print(f"\nFiles saved to project root:")
-print(f"  model.pkl        — trained XGBoost model")
+print(f"  model.pkl        — trained {best_name} model")
 print(f"  model.json       — version-safe backup")
 print(f"  features.pkl     — feature column order")
-print(f"  contract.json    — API contract for backend/frontend")
-print(f"\nNext step: run python app.py")
+print(f"  contract.json    — API contract with all model metrics")
+print(f"\nNext step: run python backend.py")

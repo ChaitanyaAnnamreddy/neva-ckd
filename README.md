@@ -4,7 +4,7 @@ A web application that uses machine learning to predict chronic kidney disease (
 
 ## Features
 
-- **ML-Powered Predictions**: XGBoost model trained on UCI CKD dataset with 99% F1 score
+- **ML-Powered Predictions**: Multiple models trained and evaluated (XGBoost selected with 99% F1 score)
 - **REST API Backend**: Flask server for risk prediction with SHAP explainability
 - **Personalized Scores**: Real-time risk percentages (0-100%) based on patient data
 - **Risk Factors**: Shows top 3 contributing factors for each prediction
@@ -217,9 +217,10 @@ python3 train.py
 This will:
 1. Download UCI CKD dataset
 2. Clean and impute data
-3. Train XGBoost and Logistic Regression models
-4. Generate SHAP explanations
-5. Save model, features, and contract files
+3. Train three models: Logistic Regression (baseline), Neural Network, and XGBoost
+4. Compare performance metrics and select best model
+5. Generate SHAP explanations for selected model
+6. Save model, features, and contract files with all model metrics
 
 ### View Logs
 
@@ -233,13 +234,22 @@ tail -f /tmp/frontend.log
 
 ## Model Performance
 
-| Metric | Value |
-|--------|-------|
-| Accuracy | 99% |
-| F1 Score | 0.9899 |
-| Precision | 0.99 |
-| Recall | 0.99 |
-| Test Set | 80 samples |
+### Selected Model: XGBoost
+
+XGBoost was selected after comparing three machine learning approaches:
+
+| Model | F1 Score | AUC | Status |
+|-------|----------|-----|--------|
+| **XGBoost** | **0.9899** | **1.0000** | ✅ Selected |
+| Logistic Regression | 0.9495 | 0.9820 | Baseline |
+| Neural Network | 0.9412 | 0.9693 | Comparative |
+
+**Why XGBoost?**
+- Highest F1 score (0.9899) and perfect AUC (1.0)
+- Best generalization on test set (80 samples)
+- Faster inference time for real-time predictions
+- Excellent feature importance via SHAP values
+- More interpretable than neural networks
 
 ### Top Risk Factors (SHAP Importance)
 
