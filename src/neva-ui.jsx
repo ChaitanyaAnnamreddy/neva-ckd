@@ -158,7 +158,7 @@ export default function NevaApp() {
   }, []);
 
   return (
-    <div style={{ background:COLORS.bg, minHeight:"100vh", display:"flex", justifyContent:"center", alignItems:"flex-start", fontFamily:"system-ui, sans-serif" }}>
+    <div style={{ background:"#f4f2fb", minHeight:"100vh", display:"flex", justifyContent:"center", alignItems:"flex-start", fontFamily:"system-ui, sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
         * { box-sizing: border-box; }
@@ -166,8 +166,32 @@ export default function NevaApp() {
         button:hover { opacity: 0.88; }
         button:active { transform: scale(0.97); }
         ::-webkit-scrollbar { width: 0; }
+
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScale {
+          from { opacity: 0; transform: scale(0.94); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glowPulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); }
+          50% { box-shadow: 0 0 0 8px rgba(249,115,22,0); }
+        }
+        .anim-stagger-1 { animation: fadeInUp 0.4s ease both; animation-delay: 0.05s; }
+        .anim-stagger-2 { animation: fadeInUp 0.4s ease both; animation-delay: 0.12s; }
+        .anim-stagger-3 { animation: fadeInUp 0.4s ease both; animation-delay: 0.20s; }
+        .anim-stagger-4 { animation: fadeInUp 0.4s ease both; animation-delay: 0.30s; }
+        .anim-stagger-5 { animation: fadeInUp 0.4s ease both; animation-delay: 0.40s; }
+        .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06); }
       `}</style>
-      <div style={{ width:"100%", maxWidth:420, minHeight:"100vh", background:COLORS.card, position:"relative", display:"flex", flexDirection:"column", borderLeft:`1px solid ${COLORS.cardBorder}`, borderRight:`1px solid ${COLORS.cardBorder}` }}>
+      <div style={{ width:"100%", maxWidth:420, minHeight:"100vh", background:"#ffffff", position:"relative", display:"flex", flexDirection:"column" }}>
         <div style={{ flex:1, overflowY:"auto" }}>
           {screen === "welcome"        && <WelcomeScreen onSignIn={handleGoogleSignIn} onChooseMethod={handleStartSignup} />}
           {screen === "signup"         && <SignUpFlow method={authMethod} onNext={handleSignupSubmit} onBack={() => setScreen("welcome")} />}
