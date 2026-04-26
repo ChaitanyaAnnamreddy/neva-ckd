@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { CheckLg, Clock, Circle, Camera, CheckCircle } from "react-bootstrap-icons";
 import { COLORS, STRIP_BANDS } from "../constants";
 import expandIcon from "../assets/SVG (3).svg";
-import hydrationIcon from "../assets/background (2).svg";
+import hydrationIcon from "../assets/Background (2).svg";
 import borderAvatarSvg from "../assets/Background+Border.svg";
 import cameraIcon from "../assets/camera.svg";
 import scannerSvg from "../assets/scanner.svg";
